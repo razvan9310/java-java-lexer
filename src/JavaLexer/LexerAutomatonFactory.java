@@ -9,7 +9,7 @@ import static JavaLexer.Utils.*;
  * Created by razvan on 4/26/15.
  */
 public class LexerAutomatonFactory {
-  public static LexerAutomaton getLexerAutomatonInstance() {
+  public static LexerAutomaton lexerAutomatonInstance() {
     HashMap<StateSymbolPair, Integer> transitionsMap = new HashMap<StateSymbolPair, Integer>();
 
     // Numbers: starting with 0:
@@ -24,12 +24,12 @@ public class LexerAutomatonFactory {
     addOperatorTransitionsToMap(transitionsMap, 1, 59);
     addSeparatorTransitionsToMap(transitionsMap, 1, 59);
     addWhitespaceLiteralTransitionsToMap(transitionsMap, 1, 59);
-    // TODO: Add '/' to end-of-number transition symbols
-    transitionsMap.put(new StateSymbolPair())
+    transitionsMap.put(new StateSymbolPair(1, '/'), 59);
 
     addOperatorTransitionsToMap(transitionsMap, 2, 59);
     addSeparatorTransitionsToMap(transitionsMap, 2, 59);
     addWhitespaceLiteralTransitionsToMap(transitionsMap, 2, 59);
+    transitionsMap.put(new StateSymbolPair(2, '/'), 59);
 
     // Hexadecimal:
     transitionsMap.put(new StateSymbolPair(1, 'x'), 3);
@@ -44,6 +44,7 @@ public class LexerAutomatonFactory {
     addOperatorTransitionsToMap(transitionsMap, 4, 60);
     addSeparatorTransitionsToMap(transitionsMap, 4, 60);
     addWhitespaceLiteralTransitionsToMap(transitionsMap, 4, 60);
+    transitionsMap.put(new StateSymbolPair(4, '/'), 60);
     transitionsMap.put(new StateSymbolPair(4, 'l'), 7);
     transitionsMap.put(new StateSymbolPair(4, 'L'), 7);
     transitionsMap.put(new StateSymbolPair(4, '_'), 5);
@@ -58,6 +59,7 @@ public class LexerAutomatonFactory {
     addOperatorTransitionsToMap(transitionsMap, 6, 60);
     addSeparatorTransitionsToMap(transitionsMap, 6, 60);
     addWhitespaceLiteralTransitionsToMap(transitionsMap, 6, 60);
+    transitionsMap.put(new StateSymbolPair(6, '/'), 60);
     addHexadecimalDigitTransitionsToMap(transitionsMap, 6, 6);
     transitionsMap.put(new StateSymbolPair(6, 'p'), 12);
     transitionsMap.put(new StateSymbolPair(6, 'P'), 12);
@@ -66,6 +68,7 @@ public class LexerAutomatonFactory {
     addOperatorTransitionsToMap(transitionsMap, 7, 60);
     addSeparatorTransitionsToMap(transitionsMap, 7, 60);
     addWhitespaceLiteralTransitionsToMap(transitionsMap, 7, 60);
+    transitionsMap.put(new StateSymbolPair(7, '/'), 60);
 
     addHexadecimalDigitTransitionsToMap(transitionsMap, 8, 9);
     transitionsMap.put(new StateSymbolPair(8, 'p'), 12);
@@ -97,11 +100,13 @@ public class LexerAutomatonFactory {
     addOperatorTransitionsToMap(transitionsMap, 14, 61);
     addSeparatorTransitionsToMap(transitionsMap, 14, 61);
     addWhitespaceLiteralTransitionsToMap(transitionsMap, 14, 61);
+    transitionsMap.put(new StateSymbolPair(14, '/'), 61);
     transitionsMap.put(new StateSymbolPair(14, '_'), 16);
 
     addOperatorTransitionsToMap(transitionsMap, 15, 61);
     addSeparatorTransitionsToMap(transitionsMap, 15, 61);
     addWhitespaceLiteralTransitionsToMap(transitionsMap, 15, 61);
+    transitionsMap.put(new StateSymbolPair(15, '/'), 61);
 
     transitionsMap.put(new StateSymbolPair(16, '_'), 16);
     addDecimalDigitTransitionsToMap(transitionsMap, 16, 17);
@@ -110,6 +115,7 @@ public class LexerAutomatonFactory {
     addOperatorTransitionsToMap(transitionsMap, 17, 61);
     addSeparatorTransitionsToMap(transitionsMap, 17, 61);
     addWhitespaceLiteralTransitionsToMap(transitionsMap, 17, 61);
+    transitionsMap.put(new StateSymbolPair(17, '/'), 61);
     transitionsMap.put(new StateSymbolPair(17, 'f'), 15);
     transitionsMap.put(new StateSymbolPair(17, 'F'), 15);
     transitionsMap.put(new StateSymbolPair(17, 'd'), 15);
@@ -130,10 +136,12 @@ public class LexerAutomatonFactory {
     addOperatorTransitionsToMap(transitionsMap, 20, 62);
     addSeparatorTransitionsToMap(transitionsMap, 20, 62);
     addWhitespaceLiteralTransitionsToMap(transitionsMap, 20, 62);
+    transitionsMap.put(new StateSymbolPair(20, '/'), 62);
 
     addOperatorTransitionsToMap(transitionsMap, 21, 62);
     addSeparatorTransitionsToMap(transitionsMap, 21, 62);
     addWhitespaceLiteralTransitionsToMap(transitionsMap, 21, 62);
+    transitionsMap.put(new StateSymbolPair(21, '/'), 61);
 
     transitionsMap.put(new StateSymbolPair(22, '_'), 22);
     addBinaryDigitTransitionsToMap(transitionsMap, 22, 23);
@@ -145,6 +153,7 @@ public class LexerAutomatonFactory {
     addOperatorTransitionsToMap(transitionsMap, 23, 62);
     addSeparatorTransitionsToMap(transitionsMap, 23, 62);
     addWhitespaceLiteralTransitionsToMap(transitionsMap, 23, 62);
+    transitionsMap.put(new StateSymbolPair(23, '/'), 62);
 
     // Octal:
     addOctalDigitTransitionsToMap(transitionsMap, 1, 24);
@@ -155,10 +164,12 @@ public class LexerAutomatonFactory {
     addOperatorTransitionsToMap(transitionsMap, 24, 63);
     addSeparatorTransitionsToMap(transitionsMap, 24, 63);
     addWhitespaceLiteralTransitionsToMap(transitionsMap, 24, 63);
+    transitionsMap.put(new StateSymbolPair(24, '/'), 63);
 
     addOperatorTransitionsToMap(transitionsMap, 25, 63);
     addSeparatorTransitionsToMap(transitionsMap, 25, 63);
     addWhitespaceLiteralTransitionsToMap(transitionsMap, 25, 63);
+    transitionsMap.put(new StateSymbolPair(25, '/'), 63);
 
     transitionsMap.put(new StateSymbolPair(26, '_'), 26);
     addOctalDigitTransitionsToMap(transitionsMap, 26, 27);
@@ -168,6 +179,7 @@ public class LexerAutomatonFactory {
     addOperatorTransitionsToMap(transitionsMap, 27, 63);
     addSeparatorTransitionsToMap(transitionsMap, 27, 63);
     addWhitespaceLiteralTransitionsToMap(transitionsMap, 27, 63);
+    transitionsMap.put(new StateSymbolPair(27, '/'), 63);
 
     // Decimal 0.*:
     transitionsMap.put(new StateSymbolPair(1, '.'), 28);
@@ -181,10 +193,12 @@ public class LexerAutomatonFactory {
     addOperatorTransitionsToMap(transitionsMap, 28, 64);
     addSeparatorTransitionsToMap(transitionsMap, 28, 64);
     addWhitespaceLiteralTransitionsToMap(transitionsMap, 28, 64);
+    transitionsMap.put(new StateSymbolPair(28, '/'), 64);
 
     addOperatorTransitionsToMap(transitionsMap, 29, 64);
     addSeparatorTransitionsToMap(transitionsMap, 29, 64);
     addWhitespaceLiteralTransitionsToMap(transitionsMap, 29, 64);
+    transitionsMap.put(new StateSymbolPair(29, '/'), 64);
 
     transitionsMap.put(new StateSymbolPair(30, 'f'), 29);
     transitionsMap.put(new StateSymbolPair(30, 'F'), 29);
@@ -209,6 +223,7 @@ public class LexerAutomatonFactory {
     addOperatorTransitionsToMap(transitionsMap, 32, 64);
     addSeparatorTransitionsToMap(transitionsMap, 32, 64);
     addWhitespaceLiteralTransitionsToMap(transitionsMap, 32, 64);
+    transitionsMap.put(new StateSymbolPair(32, '/'), 64);
 
     transitionsMap.put(new StateSymbolPair(33, '+'), 34);
     transitionsMap.put(new StateSymbolPair(33, '-'), 34);
@@ -225,6 +240,7 @@ public class LexerAutomatonFactory {
     addOperatorTransitionsToMap(transitionsMap, 35, 64);
     addSeparatorTransitionsToMap(transitionsMap, 35, 64);
     addWhitespaceLiteralTransitionsToMap(transitionsMap, 35, 64);
+    transitionsMap.put(new StateSymbolPair(35, '/'), 64);
 
     transitionsMap.put(new StateSymbolPair(36, '_'), 36);
     addDecimalDigitTransitionsToMap(transitionsMap, 36, 38);
@@ -232,6 +248,7 @@ public class LexerAutomatonFactory {
     addOperatorTransitionsToMap(transitionsMap, 37, 64);
     addSeparatorTransitionsToMap(transitionsMap, 37, 64);
     addWhitespaceLiteralTransitionsToMap(transitionsMap, 37, 64);
+    transitionsMap.put(new StateSymbolPair(37, '/'), 64);
 
     transitionsMap.put(new StateSymbolPair(38, '_'), 36);
     addDecimalDigitTransitionsToMap(transitionsMap, 38, 38);
@@ -242,6 +259,7 @@ public class LexerAutomatonFactory {
     addOperatorTransitionsToMap(transitionsMap, 38, 64);
     addSeparatorTransitionsToMap(transitionsMap, 38, 64);
     addWhitespaceLiteralTransitionsToMap(transitionsMap, 38, 64);
+    transitionsMap.put(new StateSymbolPair(38, '/'), 64);
 
     // Decimal numbers starting with '1-9':
     addDecimalDigitTransitionsToMap(transitionsMap, 0, 39);
@@ -259,10 +277,12 @@ public class LexerAutomatonFactory {
     addOperatorTransitionsToMap(transitionsMap, 39, 65);
     addSeparatorTransitionsToMap(transitionsMap, 39, 65);
     addWhitespaceLiteralTransitionsToMap(transitionsMap, 39, 65);
+    transitionsMap.put(new StateSymbolPair(39, '/'), 65);
 
     addOperatorTransitionsToMap(transitionsMap, 40, 65);
     addSeparatorTransitionsToMap(transitionsMap, 40, 65);
     addWhitespaceLiteralTransitionsToMap(transitionsMap, 40, 65);
+    transitionsMap.put(new StateSymbolPair(40, '/'), 65);
 
     transitionsMap.put(new StateSymbolPair(41, '_'), 41);
     addDecimalDigitTransitionsToMap(transitionsMap, 41, 42);
@@ -281,6 +301,7 @@ public class LexerAutomatonFactory {
     addOperatorTransitionsToMap(transitionsMap, 42, 65);
     addSeparatorTransitionsToMap(transitionsMap, 42, 65);
     addWhitespaceLiteralTransitionsToMap(transitionsMap, 42, 65);
+    transitionsMap.put(new StateSymbolPair(42, '/'), 65);
 
     // Apostrophe:
     transitionsMap.put(new StateSymbolPair(0, '\''), 43);
@@ -383,6 +404,66 @@ public class LexerAutomatonFactory {
     }
 
     // Operators:
+    char[] pureUnaryOperators = {'~', '?', ':'};
+    for (char c : pureUnaryOperators) {
+      transitionsMap.put(new StateSymbolPair(0, c), 68);
+    }
+    char[] acceptsEqualSuffix = {'=', '!', '^', '*', '/', '%'};
+    for (char c : acceptsEqualSuffix) {
+      transitionsMap.put(new StateSymbolPair(0, c), 69);
+    }
+    transitionsMap.put(new StateSymbolPair(0, '&'), 70);
+    transitionsMap.put(new StateSymbolPair(0, '|'), 71);
+    transitionsMap.put(new StateSymbolPair(0, '+'), 72);
+    transitionsMap.put(new StateSymbolPair(0, '-'), 73);
+    transitionsMap.put(new StateSymbolPair(0, '<'), 74);
 
+    transitionsMap.put(new StateSymbolPair(69, '='), 68);
+
+    transitionsMap.put(new StateSymbolPair(70, '&'), 68);
+    transitionsMap.put(new StateSymbolPair(70, '='), 68);
+
+    transitionsMap.put(new StateSymbolPair(71, '|'), 68);
+    transitionsMap.put(new StateSymbolPair(71, '='), 68);
+
+    transitionsMap.put(new StateSymbolPair(72, '='), 68);
+    transitionsMap.put(new StateSymbolPair(72, '+'), 68);
+
+    transitionsMap.put(new StateSymbolPair(73, '-'), 68);
+    transitionsMap.put(new StateSymbolPair(73, '='), 68);
+
+    transitionsMap.put(new StateSymbolPair(74, '<'), 75);
+
+    transitionsMap.put(new StateSymbolPair(75, '='), 68);
+
+    transitionsMap.put(new StateSymbolPair(76, '='), 68);
+
+    transitionsMap.put(new StateSymbolPair(77, '='), 68);
+    transitionsMap.put(new StateSymbolPair(77, '>'), 78);
+
+    transitionsMap.put(new StateSymbolPair(78, '='), 68);
+
+    // Separators:
+    addSeparatorTransitionsToMap(transitionsMap, 0, 79);
+
+    // Final states:
+    HashMap<Integer, Integer> finalStatesToTokenTypesMap = new HashMap<Integer, Integer>();
+    finalStatesToTokenTypesMap.put(57, KEYWORD_IDENTIFIER_BOOLEAN_NULL);
+    finalStatesToTokenTypesMap.put(58, KEYWORD_IDENTIFIER_BOOLEAN_NULL);
+    finalStatesToTokenTypesMap.put(59, NUMBER_DECIMAL);
+    finalStatesToTokenTypesMap.put(60, NUMBER_HEXADECIMAL);
+    finalStatesToTokenTypesMap.put(61, NUMBER_HEXADECIMAL);
+    finalStatesToTokenTypesMap.put(62, NUMBER_BINARY);
+    finalStatesToTokenTypesMap.put(63, NUMBER_OCTAL);
+    finalStatesToTokenTypesMap.put(64, NUMBER_DECIMAL);
+    finalStatesToTokenTypesMap.put(65, NUMBER_DECIMAL);
+    finalStatesToTokenTypesMap.put(66, CHARACTER);
+    finalStatesToTokenTypesMap.put(67, STRING);
+    for (int i = 68; i <= 78; ++i) {
+      finalStatesToTokenTypesMap.put(i, OPERATOR);
+    }
+    finalStatesToTokenTypesMap.put(79, SEPARATOR);
+
+    return new LexerAutomaton(transitionsMap, finalStatesToTokenTypesMap);
   }
 }

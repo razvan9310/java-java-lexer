@@ -32,10 +32,19 @@ public class LexerAutomaton {
   }
 
   private HashMap<StateSymbolPair, Integer> mTransitionsMap;
+  private HashMap<Integer, Integer> mFinalStatesToTokenTypesMap;
 
-  private LexerAutomaton() {}
+  LexerAutomaton(HashMap<StateSymbolPair, Integer> transitionsMap, HashMap<Integer, Integer>
+      finalStatesToTokenTypesMap) {
+    mTransitionsMap = transitionsMap;
+    mFinalStatesToTokenTypesMap = finalStatesToTokenTypesMap;
+  }
 
-  public void setTransitionsMap(HashMap<StateSymbolPair, Integer> map) {
-    mTransitionsMap = new HashMap<StateSymbolPair, Integer>(map);
+  public int transition(int state, char symbol) {
+    return mTransitionsMap.get(new StateSymbolPair(state, symbol));
+  }
+
+  public Integer finalStateType(int state) {
+    return mFinalStatesToTokenTypesMap.get(state);
   }
 }

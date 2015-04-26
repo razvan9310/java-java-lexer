@@ -8,9 +8,27 @@ import static JavaLexer.LexerAutomaton.StateSymbolPair;
  * Created by razvan on 4/26/15.
  */
 public class Utils {
+  public static int KEYWORD_IDENTIFIER_BOOLEAN_NULL = 0;
+  public static int NUMBER_HEXADECIMAL = 1;
+  public static int NUMBER_DECIMAL = 2;
+  public static int NUMBER_OCTAL = 3;
+  public static int NUMBER_BINARY = 4;
+  public static int OPERATOR = 5;
+  public static int SEPARATOR = 6;
+  public static int CHARACTER = 7;
+  public static int STRING = 8;
+
+  public static String[] BOOLEAN_LITERALS = {"false", "true"};
   public static char[] DIGITS = {'0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'A', 'b',
           'B', 'c', 'C', 'd', 'D', 'e', 'E', 'f', 'F'};
   public static char[] ESCAPE_CHARACTERS = {'\'', '\"', '\\', '\n', '\r', '\f', '\b', '\013'};
+  public static String[] KEYWORDS = {"abstract", "assert", "boolean", "break", "byte", "case",
+          "catch", "char", "class", "const", "continue", "default", "do", "double", "else", "enum",
+          "extends", "final", "finally", "float", "for", "if", "goto", "implements", "import",
+          "instanceof", "int", "interface", "long", "native", "new", "package", "private", "protected",
+          "public", "return", "short", "static", "strictfp", "super", "switch", "synchronized", "this",
+          "throw", "throws", "transient", "try", "void", "volatile", "while"};
+  public static String NULL_LITERAL = "null";
   public static String[] OPERATORS = {"=", ">", "<", "!", "~", "?", ":", "==", "<=", ">=", "!=",
       "&&", "||", "++", "--", "+", "-", "*", "/", "&", "|", "^", "%", "<<", ">>", ">>>", "+=", "-=",
       "*=", "/=", "&=", "|=", "^=", "%=", "<<=", ">>=", ">>>="};

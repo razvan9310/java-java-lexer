@@ -7,6 +7,7 @@ import java.util.HashMap;
  */
 public class LexerAutomaton {
   public static class StateSymbolPair {
+
     public int mState;
     public char mSymbol;
 
@@ -40,7 +41,7 @@ public class LexerAutomaton {
     mFinalStatesToTokenTypesMap = finalStatesToTokenTypesMap;
   }
 
-  public int transition(int state, char symbol) {
+  public Integer transition(int state, char symbol) {
     return mTransitionsMap.get(new StateSymbolPair(state, symbol));
   }
 

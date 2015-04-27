@@ -43,19 +43,11 @@ public class LexerAutomaton {
     mFinalStatesToTokenTypesMap = finalStatesToTokenTypesMap;
   }
 
-  public void setWhitespaceCommentStates(List<Integer> whitespaceCommentStates) {
-    mWhitespaceCommentStates = whitespaceCommentStates;
-  }
-
   public Integer transition(int state, char symbol) {
     return mTransitionsMap.get(new StateSymbolPair(state, symbol));
   }
 
   public Integer finalStateType(int state) {
     return mFinalStatesToTokenTypesMap.get(state);
-  }
-
-  public boolean isWhitespaceCommentState(int state) {
-    return mWhitespaceCommentStates.indexOf(state) >= 0;
   }
 }

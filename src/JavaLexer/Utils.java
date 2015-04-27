@@ -69,9 +69,9 @@ public class Utils {
       case SEPARATOR:
         return "separator";
       case CHARACTER:
-        return "character";
+        return "character literal";
       case STRING:
-        return "string";
+        return "string literal";
       default:
         return null;
     }
@@ -116,9 +116,12 @@ public class Utils {
   }
 
   public static void addDecimalDigitTransitionsToMap(HashMap<StateSymbolPair, Integer> map,
-      int source, int destination) {
+      int source, int destination, boolean addZero) {
     for (char digit : DIGITS) {
       if (isDecimalDigit(digit)) {
+        if (digit == '0' && !addZero) {
+          continue;
+        }
         map.put(new StateSymbolPair(source, digit), destination);
       }
     }

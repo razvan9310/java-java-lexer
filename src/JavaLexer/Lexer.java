@@ -40,29 +40,36 @@ public class Lexer {
 
   public CurrentTokenNextPosition getTokenAndNextPosition(int pos) {
     String tokenValue = "";
-    int lastValidState = 0;
     int offset = 0;
+    Integer lastFinalState = null;
+    String lastFinalTokenValue = "";
+    int lastFinalOffset = 0;
     char currentCharacter;
+
     while (pos + offset < mInput.length && (mCurrentState = mLexerAutomaton.transition(
         mCurrentState, currentCharacter = ((char) (mInput[pos + offset] & 0xFF)))) != null) {
-      lastValidState = mCurrentState;
       if (mCurrentState == START_STATE) {
         tokenValue = "";
       } else {
         tokenValue += currentCharacter;
+        if (mLexerAutomaton.finalStateType(mCurrentState) != null) {
+          lastFinalState = mCurrentState;
+          lastFinalTokenValue = tokenValue;
+          lastFinalOffset = offset + 1;
+        }
       }
       ++offset;
     }
-    Integer finalStateType = mLexerAutomaton.finalStateType(lastValidState);
-    if (finalStateType == null) {
-      return new CurrentTokenNextPosition(null, pos + offset);
-    }
-    mCurrentState = START_STATE;
-    if (!mTokenValues.contains(tokenValue)) {
-      mTokenValues.add(tokenValue);
-    }
 
-    return new CurrentTokenNextPosition(new Token(mLexerAutomaton.finalStateType(lastValidState),
-        mTokenValues.indexOf(tokenValue)), pos + offset);
+    if (lastFinalState == null) {
+      return new CurrentTokenNextPosition(null, pos + offset);
+    } else {
+      mCurrentState = START_STATE;
+      if (!mTokenValues.contains(lastFinalTokenValue)) {
+        mTokenValues.add(lastFinalTokenValue);
+      }
+      return new CurrentTokenNextPosition(new Token(mLexerAutomaton.finalStateType(lastFinalState),
+              mTokenValues.indexOf(lastFinalTokenValue)), pos + lastFinalOffset);
+    }
   }
 }

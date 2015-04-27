@@ -10,12 +10,11 @@ public class Lexer {
   private static int START_STATE = 0;
 
   private int mCurrentPosition = 0;
-  private Integer mCurrentState = 0;
+  private Integer mCurrentState = START_STATE;
   private byte[] mInput;
   private LexerAutomaton mLexerAutomaton;
-  private ArrayList<String> mTokenValues = new ArrayList<String>();
-  private HashMap<Integer, ArrayList<Integer>> mTokenPositionsMap =
-      new HashMap<Integer, ArrayList<Integer>>();
+  private ArrayList<String> mTokenValues;
+  private HashMap<Integer, ArrayList<Integer>> mTokenPositionsMap;
 
   public String getTokenValue(int index) {
     if (index < 0 || index >= mTokenValues.size()) {
@@ -30,10 +29,14 @@ public class Lexer {
 
   public void setLexerAutomaton(LexerAutomaton lexerAutomaton) {
     mLexerAutomaton = lexerAutomaton;
+    mCurrentState = START_STATE;
+    mTokenValues = new ArrayList<String>();
+    mTokenPositionsMap = new HashMap<Integer, ArrayList<Integer>>();
   }
 
   public void setInput(byte[] input) {
     mInput = input;
+    mCurrentPosition = 0;
   }
 
   public Token getToken() {
@@ -48,7 +51,7 @@ public class Lexer {
             mCurrentState, currentCharacter = ((char) (mInput[mCurrentPosition + offset] & 0xFF))))
             != null) {
       tokenValue += currentCharacter;
-      if (mLexerAutomaton.finalStateType(mCurrentState) != null) {
+      if (mLexerAutomaton.tokenTypeForFinalState(mCurrentState) != null) {
         if (mCurrentState == START_STATE) {
           tokenValue = "";
         }
@@ -76,7 +79,7 @@ public class Lexer {
 
       mCurrentPosition += lastFinalOffset;
 
-      return new Token(mLexerAutomaton.finalStateType(lastFinalState), positionInTokensList);
+      return new Token(mLexerAutomaton.tokenTypeForFinalState(lastFinalState), positionInTokensList);
     }
   }
 

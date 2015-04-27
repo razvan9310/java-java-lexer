@@ -1,15 +1,16 @@
 package JavaLexer;
 
-import java.util.Arrays;
 import java.util.HashMap;
 import JavaLexer.LexerAutomaton.StateSymbolPair;
 
 import static JavaLexer.Utils.*;
 
-/**
- * Created by razvan on 4/26/15.
- */
 public class LexerAutomatonFactory {
+  /**
+   * Creates a {@link LexerAutomaton} instance by defining transitions and final states. Check the
+   * JavaLexer documentation for conceptual diagrams of the automaton.
+   * @return New {@link LexerAutomaton} instance, equipped with transitions and final states maps.
+   */
   public static LexerAutomaton lexerAutomatonInstance() {
     HashMap<StateSymbolPair, Integer> transitionsMap = new HashMap<StateSymbolPair, Integer>();
 
@@ -352,7 +353,7 @@ public class LexerAutomatonFactory {
 
     // Final states:
     HashMap<Integer, Integer> finalStatesToTokenTypesMap = new HashMap<Integer, Integer>();
-    finalStatesToTokenTypesMap.put(0, NO_TOKENS);
+    finalStatesToTokenTypesMap.put(0, EMPTY_TOKEN);
     finalStatesToTokenTypesMap.put(1, NUMBER_DECIMAL_INTEGER);
     finalStatesToTokenTypesMap.put(2, NUMBER_DECIMAL_FLOATING_POINT);
     finalStatesToTokenTypesMap.put(4, NUMBER_HEXADECIMAL_INTEGER);

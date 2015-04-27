@@ -7,7 +7,12 @@ import java.nio.file.Path;
 import java.util.Scanner;
 
 /**
- * Created by razvan on 4/26/15.
+ * Runnable class.
+ * Asks for the path to the source file to be fed to the lexer and reads the given
+ * file in binary mode.
+ * Tokens will be printed to stdout, formatted as "Type: %s, value: %s". A complete list of token
+ * values and their corresponding source file positions will also be printed to stdout. See
+ * {@link Lexer#getFormattedTableDescription()} for a description of the latter list.
  */
 public class Main {
   public static void main(String[] args) {

@@ -376,7 +376,7 @@ public class LexerAutomatonFactory {
     finalStatesToTokenTypesMap.put(39, NUMBER_DECIMAL_INTEGER);
     finalStatesToTokenTypesMap.put(40, NUMBER_DECIMAL_FLOATING_POINT);
     finalStatesToTokenTypesMap.put(42, NUMBER_DECIMAL_INTEGER);
-    finalStatesToTokenTypesMap.put(57, OPERATOR);
+    finalStatesToTokenTypesMap.put(53, OPERATOR);
     finalStatesToTokenTypesMap.put(57, KEYWORD_IDENTIFIER_BOOLEAN_NULL);
     finalStatesToTokenTypesMap.put(58, KEYWORD_IDENTIFIER_BOOLEAN_NULL);
     finalStatesToTokenTypesMap.put(59, NUMBER_DECIMAL_INTEGER);

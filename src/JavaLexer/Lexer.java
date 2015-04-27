@@ -1,6 +1,7 @@
 package JavaLexer;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 /**
  * Created by razvan on 4/26/15.
@@ -22,6 +23,8 @@ public class Lexer {
   private byte[] mInput;
   private LexerAutomaton mLexerAutomaton;
   private ArrayList<String> mTokenValues = new ArrayList<String>();
+  private HashMap<Integer, ArrayList<Integer>> mTokenPositionsMap =
+      new HashMap<Integer, ArrayList<Integer>>();
 
   public String getTokenValue(int index) {
     if (index < 0 || index >= mTokenValues.size()) {
@@ -67,6 +70,14 @@ public class Lexer {
       if (!mTokenValues.contains(lastFinalTokenValue)) {
         mTokenValues.add(lastFinalTokenValue);
       }
+      int positionInTokensList = mTokenValues.indexOf(lastFinalTokenValue);
+      ArrayList tokenPositions = mTokenPositionsMap.get(positionInTokensList);
+      if (tokenPositions == null) {
+        tokenPositions = new ArrayList<Integer>();
+      }
+      tokenPositions.add(pos);
+      mTokenPositionsMap.put(positionInTokensList, tokenPositions);
+
       return new CurrentTokenNextPosition(new Token(mLexerAutomaton.finalStateType(lastFinalState),
               mTokenValues.indexOf(lastFinalTokenValue)), pos + lastFinalOffset);
     }

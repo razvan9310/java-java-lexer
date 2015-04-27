@@ -35,7 +35,6 @@ public class LexerAutomaton {
 
   private HashMap<StateSymbolPair, Integer> mTransitionsMap;
   private HashMap<Integer, Integer> mFinalStatesToTokenTypesMap;
-  private List<Integer> mWhitespaceCommentStates;
 
   LexerAutomaton(HashMap<StateSymbolPair, Integer> transitionsMap, HashMap<Integer, Integer>
       finalStatesToTokenTypesMap) {

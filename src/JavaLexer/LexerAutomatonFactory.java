@@ -1,6 +1,5 @@
 package JavaLexer;
 
-import java.util.Arrays;
 import java.util.HashMap;
 import JavaLexer.LexerAutomaton.StateSymbolPair;
 

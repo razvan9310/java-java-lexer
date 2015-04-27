@@ -8,32 +8,74 @@ import static JavaLexer.LexerAutomaton.StateSymbolPair;
  * Created by razvan on 4/26/15.
  */
 public class Utils {
-  public static int KEYWORD_IDENTIFIER_BOOLEAN_NULL = 0;
-  public static int NUMBER_HEXADECIMAL = 1;
-  public static int NUMBER_DECIMAL = 2;
-  public static int NUMBER_OCTAL = 3;
-  public static int NUMBER_BINARY = 4;
-  public static int OPERATOR = 5;
-  public static int SEPARATOR = 6;
-  public static int CHARACTER = 7;
-  public static int STRING = 8;
+  public static final int KEYWORD_IDENTIFIER_BOOLEAN_NULL = 0;
+  public static final int NUMBER_DECIMAL_FLOATING_POINT = 1;
+  public static final int NUMBER_DECIMAL_INTEGER = 2;
+  public static final int NUMBER_HEXADECIMAL_FLOATING_POINT = 3;
+  public static final int NUMBER_HEXADECIMAL_INTEGER = 4;
+  public static final int NUMBER_OCTAL = 5;
+  public static final int NUMBER_BINARY = 6;
+  public static final int OPERATOR = 7;
+  public static final int SEPARATOR = 8;
+  public static final int CHARACTER = 9;
+  public static final int STRING = 10;
 
-  public static String[] BOOLEAN_LITERALS = {"false", "true"};
-  public static char[] DIGITS = {'0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'A', 'b',
+  public static final String[] BOOLEAN_LITERALS = {"false", "true"};
+  public static final char[] DIGITS = {'0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'A', 'b',
           'B', 'c', 'C', 'd', 'D', 'e', 'E', 'f', 'F'};
-  public static char[] ESCAPE_CHARACTERS = {'\'', '\"', '\\', '\n', '\r', '\f', '\b', '\013'};
-  public static String[] KEYWORDS = {"abstract", "assert", "boolean", "break", "byte", "case",
+  public static final char[] ESCAPE_CHARACTERS = {'\'', '\"', '\\', '\n', '\r', '\f', '\b', '\013'};
+  public static final String[] KEYWORDS = {"abstract", "assert", "boolean", "break", "byte", "case",
           "catch", "char", "class", "const", "continue", "default", "do", "double", "else", "enum",
           "extends", "final", "finally", "float", "for", "if", "goto", "implements", "import",
           "instanceof", "int", "interface", "long", "native", "new", "package", "private", "protected",
           "public", "return", "short", "static", "strictfp", "super", "switch", "synchronized", "this",
           "throw", "throws", "transient", "try", "void", "volatile", "while"};
-  public static String NULL_LITERAL = "null";
-  public static String[] OPERATORS = {"=", ">", "<", "!", "~", "?", ":", "==", "<=", ">=", "!=",
+  public static final String NULL_LITERAL = "null";
+  public static final String[] OPERATORS = {"=", ">", "<", "!", "~", "?", ":", "==", "<=", ">=", "!=",
       "&&", "||", "++", "--", "+", "-", "*", "/", "&", "|", "^", "%", "<<", ">>", ">>>", "+=", "-=",
       "*=", "/=", "&=", "|=", "^=", "%=", "<<=", ">>=", ">>>="};
-  public static char[] SEPARATORS = {'(', ')', '{', '}', '[', ']', ';', ',', '.'};
-  public static char[] WHITESPACE_LITERALS = {' ', '\t', '\r', '\n', '\f', '\013'};
+  public static final char[] SEPARATORS = {'(', ')', '{', '}', '[', ']', ';', ',', '.'};
+  public static final char[] WHITESPACE_LITERALS = {' ', '\t', '\r', '\n', '\f', '\013'};
+
+  public static String tokenTypeName(int tokenType, String tokenValue) {
+    switch (tokenType) {
+      case KEYWORD_IDENTIFIER_BOOLEAN_NULL:
+        if (BOOLEAN_LITERALS[0].equals(tokenValue) || BOOLEAN_LITERALS[1].equals(tokenValue)) {
+          return "boolean literal";
+        } else if (NULL_LITERAL.equals(tokenValue)) {
+          return "null literal";
+        } else {
+          for (String keyword: KEYWORDS) {
+            if (keyword.equals(tokenValue)) {
+              return "keyword";
+            }
+          }
+          return "identifier";
+        }
+      case NUMBER_DECIMAL_FLOATING_POINT:
+        return "decimal floating point literal";
+      case NUMBER_DECIMAL_INTEGER:
+        return "decimal integer literal";
+      case NUMBER_HEXADECIMAL_FLOATING_POINT:
+        return "hexadecimal floating point literal";
+      case NUMBER_HEXADECIMAL_INTEGER:
+        return "hexadecimal integer literal";
+      case NUMBER_OCTAL:
+        return "octal literal";
+      case NUMBER_BINARY:
+        return "binary literal";
+      case OPERATOR:
+        return "operator";
+      case SEPARATOR:
+        return "separator";
+      case CHARACTER:
+        return "character";
+      case STRING:
+        return "string";
+      default:
+        return null;
+    }
+  }
 
   public static boolean isHexadecimalDigit(char d) {
     for(char digit : DIGITS) {
@@ -50,17 +92,6 @@ public class Utils {
 
   public static boolean isOctalDigit(char d) {
     return isDecimalDigit(d) && d <= '7';
-  }
-
-  public static boolean isBinaryDigit(char d) {
-    return d == '0' || d == '1';
-  }
-
-  public static void addOperatorTransitionsToMap(HashMap<StateSymbolPair, Integer> map, int source,
-      int destination) {
-    for (String operator : OPERATORS) {
-      map.put(new StateSymbolPair(source, operator.charAt(0)), destination);
-    }
   }
 
   public static void addSeparatorTransitionsToMap(HashMap<StateSymbolPair, Integer> map, int source,

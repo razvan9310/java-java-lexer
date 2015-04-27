@@ -42,10 +42,18 @@ public class Lexer {
     String tokenValue = "";
     int lastValidState = 0;
     int offset = 0;
+    char currentCharacter;
     while (pos + offset < mInput.length && (mCurrentState = mLexerAutomaton.transition(
-        mCurrentState, (char) (mInput[pos + offset] & 0xFF))) != null) {
+        mCurrentState, currentCharacter = ((char) (mInput[pos + offset] & 0xFF)))) != null) {
       lastValidState = mCurrentState;
-      tokenValue = tokenValue + String.valueOf((char) (mInput[pos + offset] & 0xFF));
+//      if (!mLexerAutomaton.isWhitespaceCommentState(mCurrentState)) {
+//        tokenValue = tokenValue + currentCharacter;
+//      }
+      if (mCurrentState == START_STATE) {
+        tokenValue = "";
+      } else {
+        tokenValue += currentCharacter;
+      }
       ++offset;
     }
     Integer finalStateType = mLexerAutomaton.finalStateType(lastValidState);

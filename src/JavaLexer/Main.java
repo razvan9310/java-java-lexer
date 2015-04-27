@@ -6,8 +6,6 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Scanner;
 
-import JavaLexer.Lexer.CurrentTokenNextPosition;
-
 /**
  * Created by razvan on 4/26/15.
  */
@@ -16,7 +14,7 @@ public class Main {
     Lexer lexer = new Lexer();
     lexer.setLexerAutomaton(LexerAutomatonFactory.lexerAutomatonInstance());
 
-    System.out.print("java source file path: ");
+    System.out.print("Java source file path: ");
     Scanner in = new Scanner(System.in);
     String sourceFilePath = in.next();
     Path path = FileSystems.getDefault().getPath("", sourceFilePath);
@@ -24,31 +22,36 @@ public class Main {
     try {
       fileData = Files.readAllBytes(path);
     } catch (IOException e) {
-      System.out.println("error: invalid file path");
+      System.out.println("Error: invalid file path");
       return;
     }
     if (fileData.length == 0) {
-      System.out.println("error: empty source file");
+      System.out.println("Error: empty source file");
       return;
     }
     lexer.setInput(fileData);
 
-    int pos = 0;
-    CurrentTokenNextPosition currentTokenNextPosition = lexer.getTokenAndNextPosition(pos);
-    while (currentTokenNextPosition.mCurrentToken != null) {
-      int tokenType = currentTokenNextPosition.mCurrentToken.getType();
-      int tokenValue = currentTokenNextPosition.mCurrentToken.getValue();
+    System.out.println("\nTokens:");
+    Token currentToken = lexer.getToken();
+    while (currentToken != null) {
+      int tokenType = currentToken.getType();
+      int tokenValue = currentToken.getValue();
       String tokenValueName = lexer.getTokenValue(tokenValue);
       String tokenTypeName = Utils.tokenTypeName(tokenType, tokenValueName);
       if (!"".equals(tokenTypeName)) {
-        System.out.println(String.format("type: %s, value: %s", tokenTypeName, tokenValueName));
+        System.out.println(String.format("Type: %s, value: %s", tokenTypeName, tokenValueName));
       }
-      currentTokenNextPosition = lexer.getTokenAndNextPosition(
-          currentTokenNextPosition.mNextPosition);
+      currentToken = lexer.getToken();
     }
-    if (currentTokenNextPosition.mNextPosition < fileData.length) {
-      System.out.println("error: unrecognized token at position "
-          + String.valueOf(currentTokenNextPosition.mNextPosition));
+    if (lexer.getCurrentPosition() < fileData.length) {
+      System.out.println("Error: unrecognized token at position "
+          + String.valueOf(lexer.getCurrentPosition()));
+    }
+
+    System.out.println("\nTokens table description:");
+    String[] description = lexer.getFormattedTableDescription();
+    for (String row : description) {
+      System.out.println(row);
     }
   }
 }

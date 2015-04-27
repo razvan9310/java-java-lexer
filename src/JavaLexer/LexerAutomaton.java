@@ -1,6 +1,7 @@
 package JavaLexer;
 
 import java.util.HashMap;
+import java.util.List;
 
 /**
  * Created by razvan on 4/26/15.
@@ -34,11 +35,16 @@ public class LexerAutomaton {
 
   private HashMap<StateSymbolPair, Integer> mTransitionsMap;
   private HashMap<Integer, Integer> mFinalStatesToTokenTypesMap;
+  private List<Integer> mWhitespaceCommentStates;
 
   LexerAutomaton(HashMap<StateSymbolPair, Integer> transitionsMap, HashMap<Integer, Integer>
       finalStatesToTokenTypesMap) {
     mTransitionsMap = transitionsMap;
     mFinalStatesToTokenTypesMap = finalStatesToTokenTypesMap;
+  }
+
+  public void setWhitespaceCommentStates(List<Integer> whitespaceCommentStates) {
+    mWhitespaceCommentStates = whitespaceCommentStates;
   }
 
   public Integer transition(int state, char symbol) {
@@ -47,5 +53,9 @@ public class LexerAutomaton {
 
   public Integer finalStateType(int state) {
     return mFinalStatesToTokenTypesMap.get(state);
+  }
+
+  public boolean isWhitespaceCommentState(int state) {
+    return mWhitespaceCommentStates.indexOf(state) >= 0;
   }
 }

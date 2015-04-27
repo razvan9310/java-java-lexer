@@ -8,17 +8,18 @@ import static JavaLexer.LexerAutomaton.StateSymbolPair;
  * Created by razvan on 4/26/15.
  */
 public class Utils {
-  public static final int KEYWORD_IDENTIFIER_BOOLEAN_NULL = 0;
-  public static final int NUMBER_DECIMAL_FLOATING_POINT = 1;
-  public static final int NUMBER_DECIMAL_INTEGER = 2;
-  public static final int NUMBER_HEXADECIMAL_FLOATING_POINT = 3;
-  public static final int NUMBER_HEXADECIMAL_INTEGER = 4;
-  public static final int NUMBER_OCTAL = 5;
-  public static final int NUMBER_BINARY = 6;
-  public static final int OPERATOR = 7;
-  public static final int SEPARATOR = 8;
-  public static final int CHARACTER = 9;
-  public static final int STRING = 10;
+  public static final int NO_TOKENS = 0;
+  public static final int KEYWORD_IDENTIFIER_BOOLEAN_NULL = 1;
+  public static final int NUMBER_DECIMAL_FLOATING_POINT = 2;
+  public static final int NUMBER_DECIMAL_INTEGER = 3;
+  public static final int NUMBER_HEXADECIMAL_FLOATING_POINT = 4;
+  public static final int NUMBER_HEXADECIMAL_INTEGER = 5;
+  public static final int NUMBER_OCTAL = 6;
+  public static final int NUMBER_BINARY = 7;
+  public static final int OPERATOR = 8;
+  public static final int SEPARATOR = 9;
+  public static final int CHARACTER = 10;
+  public static final int STRING = 11;
 
   public static final String[] BOOLEAN_LITERALS = {"false", "true"};
   public static final char[] DIGITS = {'0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'A', 'b',
@@ -39,6 +40,8 @@ public class Utils {
 
   public static String tokenTypeName(int tokenType, String tokenValue) {
     switch (tokenType) {
+      case NO_TOKENS:
+        return "";
       case KEYWORD_IDENTIFIER_BOOLEAN_NULL:
         if (BOOLEAN_LITERALS[0].equals(tokenValue) || BOOLEAN_LITERALS[1].equals(tokenValue)) {
           return "boolean literal";

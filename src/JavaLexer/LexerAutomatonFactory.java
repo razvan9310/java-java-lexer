@@ -297,13 +297,13 @@ public class LexerAutomatonFactory {
       }
     }
 
+    transitionsMap.put(new StateSymbolPair(56, '/'), 0);
     for (char c = 0; c < 256; ++c) {
-      if (c != '/') {
+      if (c != '/' && c != '*') {
         transitionsMap.put(new StateSymbolPair(56, c), 55);
-      } else {
-        transitionsMap.put(new StateSymbolPair(56, c), 0);
       }
     }
+    transitionsMap.put(new StateSymbolPair(56, '*'), 56);
 
     // Operators:
     char[] pureUnaryOperators = {'~', '?', ':'};
@@ -352,6 +352,7 @@ public class LexerAutomatonFactory {
 
     // Final states:
     HashMap<Integer, Integer> finalStatesToTokenTypesMap = new HashMap<Integer, Integer>();
+    finalStatesToTokenTypesMap.put(0, NO_TOKENS);
     finalStatesToTokenTypesMap.put(1, NUMBER_DECIMAL_INTEGER);
     finalStatesToTokenTypesMap.put(2, NUMBER_DECIMAL_FLOATING_POINT);
     finalStatesToTokenTypesMap.put(4, NUMBER_HEXADECIMAL_INTEGER);

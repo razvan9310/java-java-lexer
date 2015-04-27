@@ -48,15 +48,14 @@ public class Lexer {
 
     while (pos + offset < mInput.length && (mCurrentState = mLexerAutomaton.transition(
         mCurrentState, currentCharacter = ((char) (mInput[pos + offset] & 0xFF)))) != null) {
-      if (mCurrentState == START_STATE) {
-        tokenValue = "";
-      } else {
-        tokenValue += currentCharacter;
-        if (mLexerAutomaton.finalStateType(mCurrentState) != null) {
-          lastFinalState = mCurrentState;
-          lastFinalTokenValue = tokenValue;
-          lastFinalOffset = offset + 1;
+      tokenValue += currentCharacter;
+      if (mLexerAutomaton.finalStateType(mCurrentState) != null) {
+        if (mCurrentState == START_STATE) {
+          tokenValue = "";
         }
+        lastFinalState = mCurrentState;
+        lastFinalTokenValue = tokenValue;
+        lastFinalOffset = offset + 1;
       }
       ++offset;
     }

@@ -38,15 +38,17 @@ public class Main {
     while (currentTokenNextPosition.mCurrentToken != null) {
       int tokenType = currentTokenNextPosition.mCurrentToken.getType();
       int tokenValue = currentTokenNextPosition.mCurrentToken.getValue();
-      System.out.println(String.format("type: %s, value: %s",
-          Utils.tokenTypeName(tokenType, lexer.getTokenValue(tokenValue)),
-          lexer.getTokenValue(tokenValue)));
+      String tokenValueName = lexer.getTokenValue(tokenValue);
+      String tokenTypeName = Utils.tokenTypeName(tokenType, tokenValueName);
+      if (!"".equals(tokenTypeName)) {
+        System.out.println(String.format("type: %s, value: %s", tokenTypeName, tokenValueName));
+      }
       currentTokenNextPosition = lexer.getTokenAndNextPosition(
           currentTokenNextPosition.mNextPosition);
     }
     if (currentTokenNextPosition.mNextPosition < fileData.length) {
-      System.out.print("error: unrecognized token: ");
-      System.out.println((char) fileData[currentTokenNextPosition.mNextPosition]);
+      System.out.println("error: unrecognized token at position "
+          + String.valueOf(currentTokenNextPosition.mNextPosition));
     }
   }
 }

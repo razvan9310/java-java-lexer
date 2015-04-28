@@ -5,25 +5,9 @@ import java.util.HashMap;
 import static JavaLexer.LexerAutomaton.StateSymbolPair;
 
 /**
- * Static utilities class.
+ * Static utilities class. Holds methods for manipulating transitions and token types.
  */
 public class Utils {
-  /**
-   * Token types, according to the Java spec.
-   */
-  public static final int EMPTY_TOKEN = 0;
-  public static final int KEYWORD_IDENTIFIER_BOOLEAN_NULL = 1;
-  public static final int NUMBER_DECIMAL_FLOATING_POINT = 2;
-  public static final int NUMBER_DECIMAL_INTEGER = 3;
-  public static final int NUMBER_HEXADECIMAL_FLOATING_POINT = 4;
-  public static final int NUMBER_HEXADECIMAL_INTEGER = 5;
-  public static final int NUMBER_OCTAL = 6;
-  public static final int NUMBER_BINARY = 7;
-  public static final int OPERATOR = 8;
-  public static final int SEPARATOR = 9;
-  public static final int CHARACTER = 10;
-  public static final int STRING = 11;
-
   public static final String EMPTY_TOKEN_STRING = "";
   public static final String BOOLEAN_LITERAL_STRING = "boolen literal";
   public static final String CHARACTER_LITERAL_STRING = "character literal";
@@ -64,15 +48,15 @@ public class Utils {
 
   /**
    * Literal name of the given token.
-   * @param tokenType One of the declared token types.
+   * @param tokenType One of the {@link Token} types.
    * @param tokenValue String value.
    * @return One of the declared "*_STRING" values.
    */
   public static String tokenTypeName(int tokenType, String tokenValue) {
     switch (tokenType) {
-      case EMPTY_TOKEN:
+      case Token.EMPTY_TOKEN:
         return EMPTY_TOKEN_STRING;
-      case KEYWORD_IDENTIFIER_BOOLEAN_NULL:
+      case Token.KEYWORD_IDENTIFIER_BOOLEAN_NULL:
         if (BOOLEAN_LITERALS[0].equals(tokenValue) || BOOLEAN_LITERALS[1].equals(tokenValue)) {
           return BOOLEAN_LITERAL_STRING;
         } else if (NULL_LITERAL.equals(tokenValue)) {
@@ -85,31 +69,36 @@ public class Utils {
           }
           return IDENTIFIER_STRING;
         }
-      case NUMBER_DECIMAL_FLOATING_POINT:
+      case Token.NUMBER_DECIMAL_FLOATING_POINT:
         return NUMBER_DECIMAL_FLOATING_POINT_STRING;
-      case NUMBER_DECIMAL_INTEGER:
+      case Token.NUMBER_DECIMAL_INTEGER:
         return NUMBER_DECIMAL_INTEGER_STRING;
-      case NUMBER_HEXADECIMAL_FLOATING_POINT:
+      case Token.NUMBER_HEXADECIMAL_FLOATING_POINT:
         return NUMBER_HEXADECIMAL_FLOATING_POINT_STRING;
-      case NUMBER_HEXADECIMAL_INTEGER:
+      case Token.NUMBER_HEXADECIMAL_INTEGER:
         return NUMBER_HEXADECIMAL_INTEGER_STRING;
-      case NUMBER_OCTAL:
+      case Token.NUMBER_OCTAL:
         return NUMBER_OCTAL_INTEGER_STRING;
-      case NUMBER_BINARY:
+      case Token.NUMBER_BINARY:
         return NUMBER_BINARY_INTEGER_STRING;
-      case OPERATOR:
+      case Token.OPERATOR:
         return OPERATOR_STRING;
-      case SEPARATOR:
+      case Token.SEPARATOR:
         return SEPARATOR_STRING;
-      case CHARACTER:
+      case Token.CHARACTER:
         return CHARACTER_LITERAL_STRING;
-      case STRING:
+      case Token.STRING:
         return STRING_LITERAL_STRING;
       default:
         return null;
     }
   }
 
+  /**
+   * Tests whether the given character is a hexadecimal digit, i.e. 0-9, a-f, A-F.
+   * @param d {@code char} to test.
+   * @return {@code true} if the given {@code char} is hexadecimal, {@code false} otherwise.
+   */
   public static boolean isHexadecimalDigit(char d) {
     for(char digit : DIGITS) {
       if (digit == d) {
@@ -119,14 +108,31 @@ public class Utils {
     return false;
   }
 
+  /**
+   * Tests whether the given character is a decimal digit, i.e. 0-9.
+   * @param d {@code char} to test.
+   * @return {@code true} if the given {@code char} is hexadecimal, {@code false} otherwise.
+   */
   public static boolean isDecimalDigit(char d) {
     return isHexadecimalDigit(d) && d <= '9';
   }
 
+  /**
+   * Tests whether the given character is an octal digit, i.e. 0-7,
+   * @param d {@code char} to test.
+   * @return {@code true} if the given {@code char} is hexadecimal, {@code false} otherwise.
+   */
   public static boolean isOctalDigit(char d) {
     return isDecimalDigit(d) && d <= '7';
   }
 
+  /**
+   * Adds transitions with all {@link Utils#SEPARATORS}, from the given source, to the given
+   * destination.
+   * @param map Transitions {@code HashMap} to add to.
+   * @param source {@code int} denoting source node.
+   * @param destination {@code int} denoting destination node.
+   */
   public static void addSeparatorTransitionsToMap(HashMap<StateSymbolPair, Integer> map, int source,
       int destination) {
     for (char separator : SEPARATORS) {
@@ -134,6 +140,13 @@ public class Utils {
     }
   }
 
+  /**
+   * Adds transitions with all {@link Utils#WHITESPACE_LITERALS}, from the given source, to the
+   * given destination.
+   * @param map Transitions {@code HashMap} to add to.
+   * @param source {@code int} denoting source node.
+   * @param destination {@code int} denoting destination node.
+   */
   public static void addWhitespaceLiteralTransitionsToMap(HashMap<StateSymbolPair, Integer> map,
       int source, int destination) {
     for (char whitespaceLiteral : WHITESPACE_LITERALS) {
@@ -141,6 +154,13 @@ public class Utils {
     }
   }
 
+  /**
+   * Adds transitions with all hexadecimal digits (i.e. 0-9, a-f, A-F), from the given source, to
+   * the given destination.
+   * @param map Transitions {@code HashMap} to add to.
+   * @param source {@code int} denoting source node.
+   * @param destination {@code int} denoting destination node.
+   */
   public static void addHexadecimalDigitTransitionsToMap(HashMap<StateSymbolPair, Integer> map,
       int source, int destination) {
     for (char digit : DIGITS) {
@@ -148,6 +168,14 @@ public class Utils {
     }
   }
 
+  /**
+   * Adds transitions with all decimal digits (i.e. 0-9), from the given source, to the given
+   * destination.
+   * @param map Transitions {@code HashMap} to add to.
+   * @param source {@code int} denoting source node.
+   * @param destination {@code int} denoting destination node.
+   * @param addZero {@code boolean} flag indicating whether to include transitions with 0.
+   */
   public static void addDecimalDigitTransitionsToMap(HashMap<StateSymbolPair, Integer> map,
       int source, int destination, boolean addZero) {
     for (char digit : DIGITS) {
@@ -160,6 +188,13 @@ public class Utils {
     }
   }
 
+  /**
+   * Adds transitions with all octal digits (i.e. 0-7), from the given source, to the given
+   * destination.
+   * @param map Transitions {@code HashMap} to add to.
+   * @param source {@code int} denoting source node.
+   * @param destination {@code int} denoting destination node.
+   */
   public static void addOctalDigitTransitionsToMap(HashMap<StateSymbolPair, Integer> map,
       int source, int destination) {
     for (char digit : DIGITS) {
@@ -169,12 +204,24 @@ public class Utils {
     }
   }
 
+  /**
+   * Adds transitions with 0 and 1, from the given source, to the given destination.
+   * @param map Transitions {@code HashMap} to add to.
+   * @param source {@code int} denoting source node.
+   * @param destination {@code int} denoting destination node.
+   */
   public static void addBinaryDigitTransitionsToMap(HashMap<StateSymbolPair, Integer> map,
       int source, int destination) {
     map.put(new StateSymbolPair(source, '0'), destination);
     map.put(new StateSymbolPair(source, '1'), destination);
   }
 
+  /**
+   * Tests whether the given {@code char} is an escape character.
+   * @param c {@code char} to test.
+   * @return {@code true} if the given {@code char} is in {@link Utils#ESCAPE_CHARACTERS},
+   *     {@code false} otherwise.
+   */
   public static boolean isEscapeCharacter(char c) {
     for (char escape : ESCAPE_CHARACTERS) {
       if (c == escape) {

@@ -1,4 +1,4 @@
 # java-lexer
 Lexer for Java, written in Java.
 
-TODO: Complete javadoc, add makefile, add tests, add conceptual diagrams
+TODO: Add makefile, add tests, add conceptual diagrams
